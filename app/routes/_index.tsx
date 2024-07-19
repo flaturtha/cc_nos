@@ -1,10 +1,9 @@
 import { LinksFunction } from "@remix-run/node";
-import styles from "~/styles/global.css";
 
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: "https://www.cdnfonts.com/breamcatcher.font" },
-    { rel: "stylesheet", href: styles }];
+    { rel: "stylesheet", href: "/styles/global.css" }];
 };
 
 export default function Index() {
