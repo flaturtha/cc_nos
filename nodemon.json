@@ -1,0 +1,6 @@
+{
+  "watch": ["app"],
+  "ext": "js,jsx,ts,tsx",
+  "ignore": ["public/*"],
+  "exec": "remix dev"
+}

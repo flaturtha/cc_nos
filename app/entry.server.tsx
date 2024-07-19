@@ -4,6 +4,13 @@
  * For more information, see https://remix.run/file-conventions/entry.server
  */
 
+import styles from "./styles/global.css";
+
+export const links = () => {
+  return [{ rel: "stylesheet", href: styles }];
+};
+
+
 import { PassThrough } from "node:stream";
 
 import type { AppLoadContext, EntryContext } from "@remix-run/node";
