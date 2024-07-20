@@ -11,7 +11,7 @@
     }
   ],
   "routes": [
-    { "src": "/lp/(.*)", "dest": "/lp/$1" },
+    { "src": "/lp/(.*)", "dest": "/dist/lp/$1" },
     { "src": "/(.*)", "dest": "/dist/$1" }
   ]
 }
