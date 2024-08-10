@@ -1,7 +1,8 @@
-// schemas/product.ts
+// schemas/article.ts
+
 export default {
-  name: 'product',
-  title: 'Product',
+  name: 'article',
+  title: 'Article',
   type: 'document',
   fields: [
     {
@@ -27,51 +28,33 @@ export default {
       to: [{ type: 'author' }],
     },
     {
+      name: 'publishedAt',
+      title: 'Published at',
+      type: 'datetime',
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
       name: 'categories',
       title: 'Categories',
       type: 'array',
       of: [{ type: 'reference', to: { type: 'category' } }],
     },
     {
-      name: 'format',
-      title: 'Format',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'ePub', value: 'epub' },
-          { title: 'Kindle', value: 'kindle' },
-          { title: 'Paperback', value: 'paperback' },
-          { title: 'Hardcover', value: 'hardcover' },
-          { title: 'Audiobook', value: 'audiobook' },
-          { title: 'Online Web', value: 'web' },
-        ],
-      },
-      validation: (Rule: any) => Rule.required(),
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ type: 'string' }],
+    },
+    {
+      name: 'body',
+      title: 'Body',
+      type: 'blockContent',  // Reference blockContent here
     },
     {
       name: 'language',
       title: 'Language',
       type: 'reference',
       to: [{ type: 'language' }],
-    },
-    {
-      name: 'price',
-      title: 'Price',
-      type: 'number',
-      validation: (Rule: any) => Rule.required().min(0),
-    },
-    {
-      name: 'coverImage',
-      title: 'Cover Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    },
-    {
-      name: 'description',
-      title: 'Description',
-      type: 'text',
     },
     {
       name: 'seo',

@@ -1,18 +1,23 @@
-import {defineConfig} from 'sanity'
-import {structureTool} from 'sanity/structure'
-import {visionTool} from '@sanity/vision'
-import { schemaTypes } from './schemas'
+import { defineConfig } from 'sanity';
+import { visionTool } from '@sanity/vision';
+
+import article from './schemas/article';
+import author from './schemas/author';
+import category from './schemas/category';
+import product from './schemas/product';
+import language from './schemas/language';
+import blockContent from './schemas/blockContent';
 
 export default defineConfig({
   name: 'default',
-  title: 'CharlieChan',
+  title: 'Charlie Chan',
 
-  projectId: 'joet3wd5',
+  projectId: 'joet3wd5',  // Replace with your actual project ID
   dataset: 'production',
 
-  plugins: [structureTool(), visionTool()],
+  plugins: [visionTool()],
 
   schema: {
-    types: schemaTypes,
+    types: [article, author, category, product, language, blockContent],
   },
-})
+});

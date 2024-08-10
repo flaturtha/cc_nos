@@ -1,3 +1,4 @@
+// schemas/category.ts
 export default {
   name: 'category',
   title: 'Category',
@@ -7,6 +8,12 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'description',
+      title: 'Description',
+      type: 'text',
     },
   ],
-}
+};
