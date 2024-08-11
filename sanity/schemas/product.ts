@@ -1,4 +1,6 @@
-// schemas/product.ts
+import seo from './seo';
+import variant from './variant';
+
 export default {
   name: 'product',
   title: 'Product',
@@ -21,54 +23,6 @@ export default {
       validation: (Rule: any) => Rule.required(),
     },
     {
-      name: 'author',
-      title: 'Author',
-      type: 'reference',
-      to: [{ type: 'author' }],
-    },
-    {
-      name: 'categories',
-      title: 'Categories',
-      type: 'array',
-      of: [{ type: 'reference', to: { type: 'category' } }],
-    },
-    {
-      name: 'format',
-      title: 'Format',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'ePub', value: 'epub' },
-          { title: 'Kindle', value: 'kindle' },
-          { title: 'Paperback', value: 'paperback' },
-          { title: 'Hardcover', value: 'hardcover' },
-          { title: 'Audiobook', value: 'audiobook' },
-          { title: 'Online Web', value: 'web' },
-        ],
-      },
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
-      name: 'language',
-      title: 'Language',
-      type: 'reference',
-      to: [{ type: 'language' }],
-    },
-    {
-      name: 'price',
-      title: 'Price',
-      type: 'number',
-      validation: (Rule: any) => Rule.required().min(0),
-    },
-    {
-      name: 'coverImage',
-      title: 'Cover Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    },
-    {
       name: 'description',
       title: 'Description',
       type: 'text',
@@ -76,12 +30,14 @@ export default {
     {
       name: 'seo',
       title: 'SEO',
-      type: 'object',
-      fields: [
-        { name: 'metaTitle', title: 'Meta Title', type: 'string' },
-        { name: 'metaDescription', title: 'Meta Description', type: 'text' },
-        { name: 'schemaMarkup', title: 'Schema Markup', type: 'text' },
-      ],
+      type: 'seo',  // Reference the `seo` object type here
     },
+    {
+      name: 'variants',
+      title: 'Variants',
+      type: 'array',
+      of: [{ type: 'variant' }],  // Reference the `variant` object type here
+    },
+    // Add other fields as needed
   ],
 };

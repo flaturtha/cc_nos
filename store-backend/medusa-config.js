@@ -1,4 +1,5 @@
 const dotenv = require("dotenv");
+const sanityWebhook = require('./sanityWebhook');
 
 let ENV_FILE_NAME = "";
 switch (process.env.NODE_ENV) {
@@ -34,6 +35,16 @@ const DATABASE_URL =
 const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
 
 const plugins = [
+  {
+    resolve: "medusa-plugin-sanity",
+    options: {
+      projectId: "joet3wd5",
+      dataset: "production",
+      token: process.env.SANITY_API_TOKEN,
+      apiVersion: "2023-01-01", // Specify a valid API version
+      useCdn: false, // Set to true if you want to use the CDN for faster access
+    },
+  },
   `medusa-fulfillment-manual`,
   `medusa-payment-manual`,
   {
@@ -44,7 +55,6 @@ const plugins = [
   },
   {
     resolve: "@medusajs/admin",
-    /** @type {import('@medusajs/admin').PluginOptions} */
     options: {
       autoRebuild: true,
       develop: {
@@ -54,35 +64,26 @@ const plugins = [
   },
 ];
 
-const modules = {
-  /*eventBus: {
-    resolve: "@medusajs/event-bus-redis",
-    options: {
-      redisUrl: REDIS_URL
-    }
-  },
-  cacheService: {
-    resolve: "@medusajs/cache-redis",
-    options: {
-      redisUrl: REDIS_URL
-    }
-  },*/
-};
+const modules = {};
 
-/** @type {import('@medusajs/medusa').ConfigModule["projectConfig"]} */
 const projectConfig = {
   jwt_secret: process.env.JWT_SECRET || "supersecret",
   cookie_secret: process.env.COOKIE_SECRET || "supersecret",
   store_cors: STORE_CORS,
   database_url: DATABASE_URL,
   admin_cors: ADMIN_CORS,
-  // Uncomment the following lines to enable REDIS
-  // redis_url: REDIS_URL
 };
 
-/** @type {import('@medusajs/medusa').ConfigModule} */
 module.exports = {
   projectConfig,
   plugins,
   modules,
+  server: {
+    // other server configurations
+
+    middleware: [
+      // other middleware
+      sanityWebhook,
+    ],
+  },
 };

@@ -1,5 +1,7 @@
 // schemas/article.ts
 
+import seo from './seo';
+
 export default {
   name: 'article',
   title: 'Article',
@@ -48,7 +50,7 @@ export default {
     {
       name: 'body',
       title: 'Body',
-      type: 'blockContent',  // Reference blockContent here
+      type: 'blockContent',
     },
     {
       name: 'language',
@@ -59,12 +61,7 @@ export default {
     {
       name: 'seo',
       title: 'SEO',
-      type: 'object',
-      fields: [
-        { name: 'metaTitle', title: 'Meta Title', type: 'string' },
-        { name: 'metaDescription', title: 'Meta Description', type: 'text' },
-        { name: 'schemaMarkup', title: 'Schema Markup', type: 'text' },
-      ],
+      type: 'seo',  // Reference the `seo` object type here
     },
   ],
 };
