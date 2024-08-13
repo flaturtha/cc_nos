@@ -1,7 +1,7 @@
 // schemas/category.ts
 export default {
-  name: 'category',
-  title: 'Category',
+  name: 'genre',
+  title: 'Genre',
   type: 'document',
   fields: [
     {

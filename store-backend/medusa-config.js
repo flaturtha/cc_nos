@@ -77,7 +77,12 @@ const projectConfig = {
 module.exports = {
   projectConfig,
   plugins,
-  modules,
+  modules: {
+    // ...
+    productService: {
+      resolve: "@medusajs/product",
+    },
+  },
   server: {
     // other server configurations
 

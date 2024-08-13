@@ -21,11 +21,6 @@ export default {
       title: 'Price',
       type: 'number',
     },
-    {
-      name: 'inventory_quantity',
-      title: 'Inventory Quantity',
-      type: 'number',
-    },
     // Add other fields as needed
   ],
-};
+}

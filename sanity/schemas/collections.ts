@@ -1,7 +1,6 @@
-// schemas/category.ts
 export default {
-  name: 'category',
-  title: 'Category',
+  name: 'collection',
+  title: 'Collection',
   type: 'document',
   fields: [
     {
@@ -14,6 +13,16 @@ export default {
       name: 'description',
       title: 'Description',
       type: 'text',
+    },
+    {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 96,
+      },
+      validation: (Rule: any) => Rule.required(),
     },
   ],
 }
