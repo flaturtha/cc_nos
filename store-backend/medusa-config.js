@@ -62,9 +62,41 @@ const plugins = [
       },
     },
   },
+  {
+    resolve: 'medusa-custom-attributes',
+    options: {
+      enableUI: true,
+      attributes: {
+        products: [
+          {
+            attribute: 'price',
+            type: 'int',
+            required: true,
+            description: 'Price'
+          },
+          {
+            attribute: 'edition',
+            type: 'string',
+            required: true,
+            description: 'Format'
+          },
+          {
+            attribute: 'isbn',
+            type: 'string',
+            required: false,
+            description: 'ISBN/Product ID'
+          }
+        ]
+      }
+    }
+  },
 ];
 
-const modules = {};
+const modules = {
+  productService: {
+    resolve: "@medusajs/product",
+  },
+};
 
 const projectConfig = {
   jwt_secret: process.env.JWT_SECRET || "supersecret",
@@ -77,17 +109,9 @@ const projectConfig = {
 module.exports = {
   projectConfig,
   plugins,
-  modules: {
-    // ...
-    productService: {
-      resolve: "@medusajs/product",
-    },
-  },
+  modules,
   server: {
-    // other server configurations
-
     middleware: [
-      // other middleware
       sanityWebhook,
     ],
   },

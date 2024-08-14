@@ -34,6 +34,40 @@ export default {
       validation: (Rule: any) => Rule.required(),
     },
     {
+      name: 'isbn',
+      title: 'ISBNs by Edition',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'edition',
+              title: 'Edition Type',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Epub', value: 'epub'},
+                  {title: 'Kindle', value: 'kindle'},
+                  {title: 'Paperback', value: 'paperback'},
+                  {title: 'Large Print Paperback', value: 'large_print_paperback'},
+                  {title: 'Hardcover', value: 'hardcover'},
+                  {title: 'Audiobook', value: 'audiobook'},
+                ],
+              },
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'isbn',
+              title: 'ISBN',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            },
+          ],
+        },
+      ],
+    },
+    {
       name: 'genre',
       title: 'Genre',
       type: 'reference',
