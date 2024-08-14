@@ -148,6 +148,12 @@ export default {
       type: 'seo',
     },
     {
+      name: 'wordCount',
+      title: 'Word Count',
+      type: 'number',
+      description: 'Total number of words in the book',
+    },
+    {
       name: 'editions',
       title: 'Available Editions',
       type: 'editions',
@@ -218,6 +224,13 @@ export default {
       type: 'number',
       readOnly: true, // This field is calculated, so it's read-only
       description: 'The average star rating for this product',
+    },
+    // New field for storing the full text of a novel
+    {
+      name: 'fullText',
+      title: 'Full Text',
+      type: 'blockContent',
+      description: 'The complete text of the novel. Suitable for long texts.',
     },
   ],
 }
