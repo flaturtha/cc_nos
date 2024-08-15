@@ -8,19 +8,12 @@ interface ReviewItemProps {
 
 export default function ReviewItem({ name, rating, text }: ReviewItemProps) {
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-2">
-        <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
-          <span className="flex h-full w-full items-center justify-center rounded-full bg-muted">
-            {name.split(' ').map(n => n[0]).join('')}
-          </span>
-        </span>
-        <div>
-          <p className="font-medium">{name}</p>
-          <p className="text-sm text-muted-foreground">{rating} out of 5 stars</p>
-        </div>
+    <div className="p-4 bg-gray-100 rounded-md shadow-md">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="font-bold text-gray-800">{name}</span>
+        <span className="text-sm text-gray-500">{rating} out of 5 stars</span>
       </div>
-      <p className="text-muted-foreground">{text}</p>
+      <p className="text-gray-700">{text}</p>
     </div>
   );
 }
