@@ -3,3 +3,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* custom-first-line class to capitalize the first line */
+.custom-first-line:first-line {
+  text-transform: uppercase;
+}
+
+.chapter-list {
+  list-style: none;
+  counter-reset: chapter; /* Resets the counter */
+}
+
+.chapter-list li {
+  counter-increment: chapter; /* Increments the counter */
+  position: relative;
+  padding-left: 10rem; /* Increase padding to prevent overlap */
+}
+
+.chapter-list li::before {
+  content: "Chapter " counter(chapter);
+  position: absolute;
+  left: 0;
+  font-weight: 350;
+  width: 20rem; /* Adjust width to ensure enough space for the label */
+  text-align: left; /* Align the text to the left */
+}
+

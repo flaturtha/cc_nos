@@ -143,6 +143,11 @@ export default {
       type: 'text',
     },
     {
+      name: 'o_volnum',
+      title: 'Original Vol., No.',
+      type: 'text',
+    },
+    {
       name: 'seo',
       title: 'SEO',
       type: 'seo',

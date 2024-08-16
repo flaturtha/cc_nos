@@ -23,6 +23,7 @@ export const loader = async ({ params }) => {
     tagline,
     o_publishedAt,
     o_publishedBy,
+    o_volnum,
     editions,
     fullText,
     seo{
@@ -40,6 +41,7 @@ export const loader = async ({ params }) => {
     throw new Error("Failed to fetch data from Sanity");
   }
 };
+
 
 
 export default function ProductPage() {
