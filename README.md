@@ -7,3 +7,7 @@ And the git repo push/pull seems fucked up. Not that it matters!
 ## next iteration (2024-10-12):
 
 The next iteration of the cc_nos static site is to create a basic template (using v0: https://b_fpbdsrdavwe.v0.build/ and others) then pulling the metadata and content from either a markdown file or json. This will be a simple set up to point FB ads to during click testing. I'll need to add some functionality, either hard code or random popup to ask if they'd like to subscribe to get a higher fidelity ebook version, which I'll source at BookFunnel.
+
+## new branch ... remixdev (2024-10-17):
+
+Created a new branch to work on basic remix set up and dev. Goal is to have a sales page template page running and pulling basic book schema and so on from markdown files or whatever of the 4 Old Cap Collier books for initial click testing and subscription.
