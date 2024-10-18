@@ -1,40 +1,13 @@
-# Welcome to Remix!
+# README.md
 
-- 📖 [Remix docs](https://remix.run/docs)
+NOTE: (2024-09-30) This is just be a static github page (`master` branch) so I had a generic site to run FB ads to, but no other site functionality. The `medusadev` branch has my 1st attempts at building the full remix/sanity/medusa site.
 
-## Development
+And the git repo push/pull seems fucked up. Not that it matters!
 
-Run the dev server:
+## next iteration (2024-10-12):
 
-```shellscript
-npm run dev
-```
+The next iteration of the cc_nos static site is to create a basic template (using v0: https://b_fpbdsrdavwe.v0.build/ and others) then pulling the metadata and content from either a markdown file or json. This will be a simple set up to point FB ads to during click testing. I'll need to add some functionality, either hard code or random popup to ask if they'd like to subscribe to get a higher fidelity ebook version, which I'll source at BookFunnel.
 
-## Deployment
+## new branch ... remixdev (2024-10-17):
 
-First, build your app for production:
-
-```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+Created a new branch to work on basic remix set up and dev. Goal is to have a sales page template page running and pulling basic book schema and so on from markdown files or whatever of the 4 Old Cap Collier books for initial click testing and subscription.
