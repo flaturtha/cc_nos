@@ -1,5 +1,5 @@
-import { json, LoaderFunction, MetaFunction } from '@remix-run/node';
-import { useLoaderData, useParams, useTransition } from '@remix-run/react';
+import { json, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { useLoaderData, useParams, useNavigation } from '@remix-run/react';
 import { useState, useEffect } from 'react';
 import { BookOpen } from 'lucide-react';
 import client from '../utils/sanityClient';
@@ -15,99 +15,72 @@ const bookFormats = [
   { name: 'Large Print', image: '/placeholder.svg?height=600&width=400', price: '$29.99' },
 ];
 
-export const loader: LoaderFunction = async ({ params }: { params: { product: string } }) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   console.log("Loader params:", params);
   
-  // First, try to fetch the book with the exact slug
   const query = `*[_type == "product" && slug.current == $slug][0]{
-    title,
-    "author": author->name,
-    "genre": genre->title,
-    description,
-    editions,
-    pageCount,
-    o_publishedAt,
-    o_publishedBy,
-    coverImage,
-    ...,  // This will include all other fields
+    ...,
+    "authorName": author->name,
+    "genreTitle": genre->title
   }`;
 
   try {
-    let bookData = await client.fetch(query, { slug: params.product });
-    
-    // If no book is found, try a fuzzy match
-    if (!bookData) {
-      const fuzzyQuery = `*[_type == "product" && slug.current match $slug][0]{
-        title,
-        "author": author->name,
-        "genre": genre->title,
-        description,
-        editions,
-        pageCount,
-        o_publishedAt,
-        o_publishedBy,
-        coverImage,
-        ...,  // This will include all other fields
-      }`;
-      bookData = await client.fetch(fuzzyQuery, { slug: `${params.product}*` });
-    }
-
+    const bookData = await client.fetch(query, { slug: params.product });
     console.log("Fetched book data:", JSON.stringify(bookData, null, 2));
     if (!bookData) {
       throw new Error("No book data found");
     }
-    return json({ book: bookData });
+
+    // Transform the data to match our interface
+    const transformedData = {
+      ...bookData,
+      author: bookData.authorName,
+      genre: bookData.genreTitle
+    };
+
+    return json({ book: transformedData });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return json({ error: error instanceof Error ? error.message : "Unknown error occurred" });
   }
 };
 
-export const meta: MetaFunction = ({ data }) => {
-  if (!data || !data.book) {
-    return [
-      { title: 'Book Not Found' },
-      { name: 'description', content: 'The requested book could not be found.' },
-    ];
-  }
-  return [
-    { title: `${data.book.title} by ${data.book.author}` },
-    { name: 'description', content: data.book.description || `Read ${data.book.title} by ${data.book.author}` },
-  ];
-};
-
 interface BookData {
-  title?: string;
-  author?: string;
-  genre?: string;
-  description?: string;
-  editions?: {
+  title: string;
+  author: string;
+  genre: string;
+  description: string | null;
+  editions: {
     epub?: { isbn: string; price: number };
     kindle?: { isbn: string; price: number };
     paperback?: { isbn: string; price: number };
     hardcover?: { isbn: string; price: number };
     largePrint?: { isbn: string; price: number };
   };
-  pageCount?: number;
-  o_publishedAt?: { yearOnly: number };
-  o_publishedBy?: string;
-  coverImage?: { asset: { _ref: string } };
+  pageCount: number;
+  o_publishedAt: { yearOnly: number };
+  o_publishedBy: string;
+  coverImage: { asset: { _ref: string } };
 }
 
 export default function ProductPage() {
-  const params = useParams();
-  const data = useLoaderData<{ book?: BookData; error?: string }>();
-  const transition = useTransition();
-  console.log("Loader data in component:", data);
-  console.log("URL params:", params);
-
+  const data = useLoaderData<{ book: BookData; error?: string }>();
+  const navigation = useNavigation();
+  
   const [selectedFormat, setSelectedFormat] = useState(bookFormats[0]);
   const [currentISBN, setCurrentISBN] = useState<string>('Not available');
   const [currentPrice, setCurrentPrice] = useState<string>('Not available');
 
   useEffect(() => {
+    console.log("Selected format:", selectedFormat);
+    console.log("Book editions:", data.book?.editions);
     if (data.book && data.book.editions) {
-      const edition = data.book.editions[selectedFormat.name.toLowerCase() as keyof typeof data.book.editions];
+      let editionKey: string | undefined;
+      if (selectedFormat.name === 'eBook') editionKey = 'epub';
+      else editionKey = selectedFormat.name.toLowerCase();
+      
+      const edition = data.book.editions[editionKey as keyof typeof data.book.editions];
+      console.log("Selected edition:", edition);
       if (edition) {
         setCurrentISBN(edition.isbn || 'Not available');
         setCurrentPrice(edition.price ? `$${edition.price.toFixed(2)}` : 'Not available');
@@ -130,11 +103,11 @@ export default function ProductPage() {
     return 'Not available';
   };
 
-  if (transition.state === "loading") {
+  if (navigation.state === "loading") {
     return <div className="text-center py-8">Loading...</div>;
   }
 
-  if (data.error) {
+  if ('error' in data) {
     return <div className="text-center py-8 text-red-600">Error: {data.error}</div>;
   }
 
@@ -189,24 +162,26 @@ export default function ProductPage() {
             </div>
           </div>
         </div>
+
         <div className="mt-8">
           <h2 className="text-2xl font-bold mb-4">What Readers Are Saying</h2>
           <div className="grid md:grid-cols-3 gap-4">
             {[1, 2, 3].map((testimonial) => (
               <div key={testimonial} className="p-4 border rounded">
-                <p className="italic mb-2">&ldquo;An absolute page-turner! I couldn&apos;t put it down.&rdquo;</p>
+                <p className="italic mb-2">"An absolute page-turner! I couldn't put it down."</p>
                 <p className="text-sm text-gray-600">- Reader {testimonial}</p>
               </div>
             ))}
           </div>
         </div>
+
         <div id="read-free" className="mt-8">
           <div className="p-6 border rounded">
             <h2 className="text-2xl font-bold mb-4 flex items-center">
               <BookOpen className="mr-2" />
-              Read &ldquo;{renderValue(data.book.title)}&rdquo; Online for Free
+              Read "{renderValue(data.book.title)}" Online for Free
             </h2>
-            <p className="mb-4">Enjoy the complete web version of &ldquo;{renderValue(data.book.title)}&rdquo; right here on our website. No download required!</p>
+            <p className="mb-4">Enjoy the complete web version of "{renderValue(data.book.title)}" right here on our website. No download required!</p>
             <div className="bg-gray-100 p-4 rounded-lg mb-4">
               <h3 className="font-semibold mb-2">Chapter 1: The Vanishing</h3>
               <p className="text-sm">
