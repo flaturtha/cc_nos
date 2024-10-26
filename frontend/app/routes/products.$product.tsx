@@ -1,5 +1,5 @@
-import { json, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
-import { useLoaderData, useParams, useNavigation } from '@remix-run/react';
+import { json, LoaderFunctionArgs } from '@remix-run/node';
+import { useLoaderData, useNavigation } from '@remix-run/react';
 import { useState, useEffect } from 'react';
 import { BookOpen } from 'lucide-react';
 import client from '../utils/sanityClient';
@@ -15,13 +15,49 @@ const bookFormats = [
   { name: 'Large Print', image: '/placeholder.svg?height=600&width=400', price: '$29.99' },
 ];
 
+// First, let's define interfaces for the block content structure
+interface BlockChild {
+  _type: string;
+  marks?: string[];
+  text: string;
+  _key?: string;
+}
+
+interface MarkDef {
+  _key: string;
+  _type: string;
+  href?: string;
+  // Add other mark definition properties as needed
+}
+
+interface Block {
+  _type: string;
+  style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'blockquote';
+  _key?: string;
+  children: BlockChild[];
+  markDefs?: MarkDef[];
+}
+
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   console.log("Loader params:", params);
   
   const query = `*[_type == "product" && slug.current == $slug][0]{
     ...,
     "authorName": author->name,
-    "genreTitle": genre->title
+    "genreTitle": genre->title,
+    "description": blurb[]{
+      "text": children[].text,
+      "type": _type,
+      "style": style
+    },
+    fullText[]{
+      ...,
+      children[]{
+        ...,
+        marks,
+        text
+      }
+    }
   }`;
 
   try {
@@ -31,7 +67,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       throw new Error("No book data found");
     }
 
-    // Transform the data to match our interface
     const transformedData = {
       ...bookData,
       author: bookData.authorName,
@@ -61,6 +96,7 @@ interface BookData {
   o_publishedAt: { yearOnly: number };
   o_publishedBy: string;
   coverImage: { asset: { _ref: string } };
+  fullText: Block[];
 }
 
 export default function ProductPage() {
@@ -89,7 +125,7 @@ export default function ProductPage() {
         setCurrentPrice('Not available');
       }
     }
-  }, [selectedFormat, data.book]);
+  }, [selectedFormat, data.book, setCurrentISBN, setCurrentPrice]); // Added missing dependencies
 
   const renderValue = (value: string | number | undefined | null): string => {
     if (value === null || value === undefined) return 'Not available';
@@ -101,6 +137,75 @@ export default function ProductPage() {
       return date.yearOnly.toString();
     }
     return 'Not available';
+  };
+
+  // Move renderBlock inside the component to access data
+  const renderBlock = (block: Block) => {
+    const style = block.style || 'normal';
+
+    switch (style) {
+      case 'h1':
+        // Book title
+        return (
+          <h1 className="text-4xl font-bold text-center mb-8">
+            {block.children.map(child => child.text).join('')}
+          </h1>
+        );
+      case 'h2':
+        // Author byline
+        return (
+          <h2 className="text-xl text-center mb-12 text-gray-600">
+            {block.children.map(child => child.text).join('')}
+          </h2>
+        );
+      case 'h3':
+        // Chapter number - now left aligned, adjusted spacing
+        return (
+          <h3 className="text-2xl mt-24 mb-1 text-gray-500"> {/* Reduced bottom margin */}
+            {block.children.map(child => child.text).join('')}
+          </h3>
+        );
+      case 'h4':
+        // Chapter title - now left aligned, more space below
+        return (
+          <h4 className="text-3xl font-black uppercase tracking-wide mb-8"> {/* Increased bottom margin */}
+            {block.children.map(child => child.text).join('')}
+          </h4>
+        );
+      case 'blockquote':
+        return (
+          <blockquote className="border-l-4 border-gray-300 pl-4 italic my-4">
+            {block.children.map(child => child.text).join('')}
+          </blockquote>
+        );
+      default: {
+        // Check if this is the first paragraph after a chapter title
+        const isFirstParagraphAfterChapter = block._key === 
+          data.book.fullText.find((b: Block, i: number) => 
+            i > 0 && 
+            data.book.fullText[i-1].style === 'h4'
+          )?._key;
+
+        return (
+          <p className={`mb-4 leading-relaxed ${
+            isFirstParagraphAfterChapter ? 'first-line:uppercase first-line:tracking-wide' : ''
+          }`}>
+            {block.children.map((child: BlockChild, index: number) => (
+              <span 
+                key={index}
+                className={`
+                  ${child.marks?.includes('strong') ? 'font-bold' : ''}
+                  ${child.marks?.includes('em') ? 'italic' : ''}
+                  ${child.marks?.includes('underline') ? 'underline' : ''}
+                `}
+              >
+                {child.text}
+              </span>
+            ))}
+          </p>
+        );
+      }
+    }
   };
 
   if (navigation.state === "loading") {
@@ -145,7 +250,16 @@ export default function ProductPage() {
                   </option>
                 ))}
               </select>
-              <p className="text-sm mb-6">{renderValue(data.book.description)}</p>
+              <div className="text-sm mb-6 space-y-4">
+                {Array.isArray(data.book.description) ? 
+                  data.book.description.map((block, index) => (
+                    <p key={index} className="leading-relaxed">
+                      {Array.isArray(block.text) ? block.text.join(' ') : block.text}
+                    </p>
+                  ))
+                  : renderValue(data.book.description)
+                }
+              </div>
               <div className="mb-6">
                 <h2 className="text-xl font-semibold mb-2">Product Details</h2>
                 <p>ISBN: {currentISBN}</p>
@@ -168,7 +282,7 @@ export default function ProductPage() {
           <div className="grid md:grid-cols-3 gap-4">
             {[1, 2, 3].map((testimonial) => (
               <div key={testimonial} className="p-4 border rounded">
-                <p className="italic mb-2">"An absolute page-turner! I couldn't put it down."</p>
+                <p className="italic mb-2">&ldquo;An absolute page-turner! I couldn&apos;t put it down.&rdquo;</p>
                 <p className="text-sm text-gray-600">- Reader {testimonial}</p>
               </div>
             ))}
@@ -179,18 +293,32 @@ export default function ProductPage() {
           <div className="p-6 border rounded">
             <h2 className="text-2xl font-bold mb-4 flex items-center">
               <BookOpen className="mr-2" />
-              Read "{renderValue(data.book.title)}" Online for Free
+              Read &ldquo;{renderValue(data.book.title)}&rdquo; Online for Free
             </h2>
-            <p className="mb-4">Enjoy the complete web version of "{renderValue(data.book.title)}" right here on our website. No download required!</p>
-            <div className="bg-gray-100 p-4 rounded-lg mb-4">
-              <h3 className="font-semibold mb-2">Chapter 1: The Vanishing</h3>
-              <p className="text-sm">
-                The fog rolled in thick that morning, blanketing the small coastal town of Mist Harbor in an eerie silence. Detective Sarah Blake stood at the edge of the pier, her keen eyes scanning the ghostly landscape. It was here, amidst the swirling mists, that the first disappearance had occurred...
-              </p>
+            <p className="mb-4">
+              Enjoy the complete web version of &ldquo;{renderValue(data.book.title)}&rdquo; right here on our website. No download required!
+            </p>
+            <div className="bg-white p-8 rounded-lg mb-4">
+              <div className="prose prose-lg max-w-none">
+                {Array.isArray(data.book.fullText) ? 
+                  data.book.fullText.map((block: Block, index: number) => (
+                    <div key={index}>
+                      {renderBlock(block)}
+                    </div>
+                  ))
+                  : <p>Full text not available.</p>
+                }
+              </div>
             </div>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-              Continue Reading
-            </button>
+            <div className="flex justify-between items-center">
+              <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                Previous Chapter
+              </button>
+              <span className="text-gray-600">Chapter 1 of X</span>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                Next Chapter
+              </button>
+            </div>
           </div>
         </div>
       </article>

@@ -24,5 +24,30 @@ export default {
       },
       validation: (Rule: any) => Rule.required(),
     },
+    {
+      name: 'coverImage',
+      title: 'Cover Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      description: 'Collection header image (recommended size: 1920x400 pixels)',
+      validation: (Rule: any) => Rule.custom((image: any) => {
+        if (!image) return true; // Optional field
+        if (image.dimensions.width < 1200) return 'Image width should be at least 1200 pixels';
+        return true;
+      }),
+    },
+    {
+      name: 'books',
+      title: 'Books',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'product' }],
+        },
+      ],
+    },
   ],
 }
