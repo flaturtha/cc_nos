@@ -1,3 +1,4 @@
+import type { LinksFunction } from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -6,8 +7,16 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import "./tailwind.css";
+import FacebookPixel from "~/components/FacebookPixel";
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export const links: LinksFunction = () => [
+  { 
+    rel: "stylesheet", 
+    href: "https://fonts.cdnfonts.com/css/breamcatcher" 
+  }
+];
+
+export default function App() {
   return (
     <html lang="en">
       <head>
@@ -15,18 +24,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <FacebookPixel />
       </head>
       <body>
-        <div className="">
-            {children}
-        </div>
+        <Outlet />
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
-}
-
-export default function App() {
-  return <Outlet />;
 }
