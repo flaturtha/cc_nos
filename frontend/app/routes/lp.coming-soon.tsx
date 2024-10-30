@@ -4,6 +4,7 @@ import { useSearchParams } from "@remix-run/react";
 import Footer from "../components/Footer";
 import { HEADLINES } from "~/config/headlines";
 import { trackFBEvent } from "~/components/FacebookPixel";
+import LaunchForm from "~/components/LaunchForm";
 
 export const meta: MetaFunction = () => {
   return [
@@ -115,30 +116,7 @@ export default function ComingSoon() {
 
                   {/* Form container - simplified since we have the parent background */}
                   <div className="w-full mt-6">
-                    <div className="p-4 rounded-lg
-                                  border border-[#e8dab5]/30
-                                  transition-all duration-300 ease-in-out">
-                      <div 
-                        className="klaviyo-form-Y47xkP" 
-                        id="klaviyo-form"
-                        style={{
-                          '--form-title-color': '#e8dab5',
-                          '--form-title-text-shadow': '2px 2px 8px rgba(0,0,0,0.4)',
-                          '--form-button-margin': '0.5rem 0',
-                          '--form-padding': '0.25rem',
-                          '--form-row-gap': '0.75rem',
-                          '--form-title-font-size': '1.5rem',
-                          '--form-input-padding': '0.75rem',
-                          '--form-input-border-color': 'rgba(232, 218, 181, 0.4)',
-                          '--form-input-background': 'rgba(232, 218, 181, 0.95)',
-                          '--form-input-color': 'rgb(17, 24, 39)',
-                          '--form-button-background': 'rgb(17, 24, 39)',
-                          '--form-button-color': '#e8dab5',
-                          '--form-button-hover-background': 'rgb(31, 41, 55)',
-                          '--form-button-shadow': '0 4px 12px rgba(0,0,0,0.2)'
-                        } as React.CSSProperties}
-                      ></div>
-                    </div>
+                    <LaunchForm />
                   </div>
                 </div>
               </div>
