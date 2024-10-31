@@ -4,6 +4,8 @@ import { useSearchParams } from "@remix-run/react";
 import Footer from "../components/Footer";
 import { HEADLINES } from "~/config/headlines";
 import { trackFBEvent } from "~/components/FacebookPixel";
+import CookieConsent from "~/components/CookieConsent";
+import LoginButton from "~/components/LoginButton";
 
 export const meta: MetaFunction = () => {
   return [
@@ -27,14 +29,9 @@ export default function ComingSoon2() {
         return acc;
       }, ['', '']);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Email submitted:', email);
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-gray-900">
+      <LoginButton />
       <main className="flex-grow">
         <div className="landing-page w-full bg-[#f7f3e9]">
           <div className="h-[70vh] relative">
@@ -100,7 +97,12 @@ export default function ComingSoon2() {
                 </svg>
               </div>
               <h2 className="text-2xl font-semibold text-gray-900">BE THE FIRST TO KNOW</h2>
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto w-full">
+              <form onSubmit={(e) => {
+                  e.preventDefault();
+                  window.location.href = `/lp/thank-you?v=${variant}`;
+                }} 
+                className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto w-full"
+              >
                 <input
                   className="flex-grow px-4 py-2 rounded border border-gray-900/20 
                             focus:outline-none focus:ring-2 focus:ring-gray-900/50
@@ -109,7 +111,6 @@ export default function ComingSoon2() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
                 />
                 <button 
                   type="submit" 
@@ -125,6 +126,7 @@ export default function ComingSoon2() {
       </main>
 
       <Footer />
+      <CookieConsent />
     </div>
   );
 }
