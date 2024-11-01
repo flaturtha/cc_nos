@@ -69,7 +69,7 @@ export default function ComingSoon2() {
               className="w-full h-full object-cover object-[15%_center]"
             />
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center z-20 px-4">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tighter text-[#f7f3e9] uppercase max-w-[12ch] sm:max-w-[18ch] lg:max-w-[24ch] mx-auto leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tighter text-[#f7f3e9] uppercase max-w-[16ch] sm:max-w-[18ch] lg:max-w-[24ch] mx-auto leading-tight">
                 <HighlightedText 
                   text={content.title} 
                   highlights={content.highlights || []} 
