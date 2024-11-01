@@ -62,7 +62,7 @@ export default function ComingSoon2() {
       <main className="flex-grow">
         <div className="landing-page w-full bg-[#f7f3e9]">
           <div className="h-[70vh] relative">
-            <div className="absolute inset-0 bg-black/50 z-10"></div>
+            <div className="absolute inset-0 bg-black/25 z-10"></div>
             <img
               src="/images/old-cap-collier.png"
               alt="Product background"
@@ -110,9 +110,9 @@ export default function ComingSoon2() {
             <div className="space-y-4 text-center">
               <div className="flex justify-center">
                 <img
-                  src="/images/vintage-lock-closed.svg"
-                  alt="Vintage lock"
-                  className="h-12 w-12"
+                  src="/images/key3.svg"
+                  alt="Vintage key"
+                  className="h-16 w-auto transform -rotate-45"
                 />
               </div>
               <h2 className="text-2xl font-semibold text-gray-900">

@@ -79,7 +79,7 @@ export default function ThankYou() {
             alt="Victorian detective illustration"
             className="w-full h-full object-cover object-[15%_center]"
           />
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-black/25" />
           
           {/* Main Hero Text */}
           <div className="absolute inset-0 flex items-center">
