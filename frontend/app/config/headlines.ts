@@ -1,42 +1,52 @@
 export const HEADLINES = {
   '1': {
-    title: "Forgotten tales of suspense — Find out what you've been missing.",
+    title: "Can you outwit the detectives who defined a genre?",
+    highlights: ["you", "the detectives"],
     description: "A Vintage Mystery Library"
   },
   '2': {
-    title: "The mysteries that thrilled a century — waiting to surprise you anew.",
+    title: "More thrilling than Sherlock, yet nearly lost to history.",
+    highlights: ["Sherlock"],
     description: "A Vintage Mystery Library"
   },
   '3': {
-    title: "Detectives lost to time — mysteries ripe for rediscovery.",
+    title: "Can you solve what the original readers never could?",
+    highlights: ["you"],
     description: "A Vintage Mystery Library"
   },
   '4': {
-    title: "More thrilling than Sherlock — yet nearly lost to history.",
+    title: "Before Holmes, before Poirot — these sleuths led the way.",
+    highlights: ["Holmes", "Poirot"],
     description: "A Vintage Mystery Library"
   },
   '5': {
-    title: "Rediscover the detectives who dared readers to guess wrong.",
+    title: "Forgotten tales of suspense — find out what you've been missing.",
+    highlights: ["suspense"],
     description: "A Vintage Mystery Library"
   },
   '6': {
-    title: "Murder, mystery, and mayhem—served up vintage style.",
+    title: "The best mysteries you've never heard of, waiting to be solved.",
+    highlights: ["you've never heard of"],
     description: "A Vintage Mystery Library"
   },
   '7': {
-    title: "Can you outwit the detectives who defined a genre?",
+    title: "More than just stories — these mysteries are time capsules.",
+    highlights: ["time capsules"],
     description: "A Vintage Mystery Library"
   },
   '8': {
     title: "Forgotten sleuths, timeless mysteries — your next obsession awaits.",
+    highlights: ["your next obsession"],
     description: "A Vintage Mystery Library"
   },
   '9': {
-    title: "Lost legends of crime — where each story hides a new twist.",
+    title: "Legends of the past, mysteries that still beg for answers.",
+    highlights: ["legends of the past"],
     description: "A Vintage Mystery Library"
   },
   '10': {
-    title: "Meet the original detectives who turned crime into an art.",
+    title: "Unlock the secrets of forgotten detectives and lost cases.",
+    highlights: ["forgotten detectives", "lost cases"],
     description: "A Vintage Mystery Library"
   }
 };

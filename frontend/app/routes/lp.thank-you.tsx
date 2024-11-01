@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { HEADLINES } from "~/config/headlines";
 import { trackFBEvent } from "~/components/FacebookPixel";
 import ReferralProgress from "~/components/referral/ReferralProgress";
+import React from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,6 +12,41 @@ export const meta: MetaFunction = () => {
     { name: "description", content: "Welcome to Tales of Murder Press" },
   ];
 };
+
+function HighlightedText({ text, highlights }: { text: string, highlights: string[] }) {
+  if (!highlights || highlights.length === 0) return <span className="uppercase font-light lg:font-extralight">{text}</span>;
+  
+  const pattern = new RegExp(
+    `(${highlights.map(h => h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
+    'gi'
+  );
+  
+  const parts = text.split(pattern);
+  
+  return (
+    <>
+      {parts.map((part, index) => {
+        const isHighlighted = highlights.some(h => 
+          h.toLowerCase() === part.toLowerCase()
+        );
+        
+        return (
+          <React.Fragment key={index}>
+            {isHighlighted ? (
+              <span className="font-[1000] tracking-wide">
+                {part}
+              </span>
+            ) : (
+              <span className="font-light lg:font-extralight">
+                {part}
+              </span>
+            )}
+          </React.Fragment>
+        );
+      })}
+    </>
+  );
+}
 
 export default function ThankYou() {
   const [searchParams] = useSearchParams();
@@ -37,20 +73,23 @@ export default function ThankYou() {
 
       <main className="bg-[#f7f3e9]">
         {/* Hero Section with Referral Overlay */}
-        <div className="relative h-[60vh]">
+        <div className="relative h-[70vh]">
           <img
             src="/images/old-cap-collier.png"
             alt="Victorian detective illustration"
             className="w-full h-full object-cover object-[15%_center]"
           />
-          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-black/50" />
           
           {/* Main Hero Text */}
           <div className="absolute inset-0 flex items-center">
             <div className="container mx-auto px-4">
-              <h2 className="text-5xl md:text-6xl font-bold text-[#f7f3e9] max-w-2xl
+              <h2 className="text-5xl md:text-6xl font-light tracking-tighter text-[#f7f3e9] max-w-2xl uppercase
                            drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
-                {content.title}
+                <HighlightedText 
+                  text={content.title} 
+                  highlights={content.highlights || []} 
+                />
               </h2>
             </div>
           </div>
