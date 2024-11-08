@@ -1,4 +1,4 @@
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -8,6 +8,8 @@ import {
 } from "@remix-run/react";
 import "./tailwind.css";
 import FacebookPixel from "~/components/FacebookPixel";
+import KlaviyoScript from '~/components/KlaviyoScript';
+import GoogleTagManager from '~/components/GoogleTagManager';
 
 export const links: LinksFunction = () => [
   { 
@@ -16,9 +18,19 @@ export const links: LinksFunction = () => [
   }
 ];
 
+export const meta: MetaFunction = () => {
+  return [
+    // ... other meta tags
+    {
+      "http-equiv": "Content-Security-Policy",
+      content: "upgrade-insecure-requests"
+    }
+  ];
+};
+
 export default function App() {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -27,9 +39,11 @@ export default function App() {
         <FacebookPixel />
       </head>
       <body>
+        <GoogleTagManager gtmId="GTM-WTZTP869" />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
+        <KlaviyoScript />
       </body>
     </html>
   );

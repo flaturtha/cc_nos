@@ -50,16 +50,31 @@ function HighlightedText({ text, highlights }: { text: string, highlights: strin
 
 export default function ThankYou() {
   const [searchParams] = useSearchParams();
-  const variant = searchParams.get('v') || '1';
+  const variant = searchParams.get('utm_source') || '1';
   const content = HEADLINES[variant as keyof typeof HEADLINES] || HEADLINES['1'];
 
   useEffect(() => {
-    // Track conversion
-    trackFBEvent('CompleteRegistration', {
-      variant,
-      content_name: content.title
+    window.dataLayer?.push({
+      event: 'conversion',
+      pageVariant: variant,
+      utmSource: variant,
+      utmMedium: searchParams.get('utm_medium') || '',
+      utmCampaign: searchParams.get('utm_campaign') || '',
+      utmTerm: searchParams.get('utm_term') || ''
     });
-  }, [variant, content.title]);
+
+    if (window._learnq) {
+      window._learnq.push(['track', 'Signup Complete', {
+        'Landing Page Variant': variant,
+        'Page URL': window.location.href,
+        'UTM Source': variant,
+        'UTM Medium': searchParams.get('utm_medium') || '',
+        'UTM Campaign': searchParams.get('utm_campaign') || '',
+        'UTM Term': searchParams.get('utm_term') || '',
+        'Timestamp': new Date().toISOString()
+      }]);
+    }
+  }, [variant, searchParams]);
 
   return (
     <div className="min-h-screen bg-[#f7f3e9]">

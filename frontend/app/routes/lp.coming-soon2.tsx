@@ -1,5 +1,5 @@
 import { MetaFunction } from "@remix-run/node";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "@remix-run/react";
 import Footer from "../components/Footer";
 import { HEADLINES } from "~/config/headlines";
@@ -7,6 +7,7 @@ import { trackFBEvent } from "~/components/FacebookPixel";
 import CookieConsent from "~/components/CookieConsent";
 import LoginButton from "~/components/LoginButton";
 import React from "react";
+import LaunchForm2 from "~/components/LaunchForm2";
 
 export const meta: MetaFunction = () => {
   return [
@@ -51,10 +52,76 @@ function HighlightedText({ text, highlights }: { text: string, highlights: strin
 }
 
 export default function ComingSoon2() {
-  const [email, setEmail] = useState('');
   const [searchParams] = useSearchParams();
-  const variant = searchParams.get('v') || '1';
+  const variant = searchParams.get('utm_source') || '1';
   const content = HEADLINES[variant as keyof typeof HEADLINES] || HEADLINES['1'];
+
+  // Page view tracking
+  useEffect(() => {
+    if (window._learnq) {
+      window._learnq.push(['track', 'Viewed Landing Page', {
+        'Landing Page Variant': variant,
+        'Page URL': window.location.href,
+        'Page Title': document.title,
+        'UTM Source': variant,
+        'UTM Medium': searchParams.get('utm_medium') || '',
+        'UTM Campaign': searchParams.get('utm_campaign') || '',
+        'UTM Term': searchParams.get('utm_term') || '',
+        'Timestamp': new Date().toISOString()
+      }]);
+    }
+
+    // Also push to dataLayer for GTM
+    window.dataLayer?.push({
+      event: 'pageView',
+      pageVariant: variant,
+      utmSource: variant,
+      utmMedium: searchParams.get('utm_medium') || '',
+      utmCampaign: searchParams.get('utm_campaign') || '',
+      utmTerm: searchParams.get('utm_term') || ''
+    });
+  }, [variant, searchParams]);
+
+  // Scroll depth tracking
+  useEffect(() => {
+    let maxScroll = 0;
+    const handleScroll = () => {
+      const scrollPercent = Math.round(
+        (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100
+      );
+      
+      if (scrollPercent > maxScroll) {
+        maxScroll = scrollPercent;
+        if (maxScroll >= 50 && !sessionStorage.getItem('scrolled50')) {
+          sessionStorage.setItem('scrolled50', 'true');
+          window._learnq?.push(['track', 'Scrolled 50%', {
+            'Landing Page Variant': variant,
+            'Page URL': window.location.href,
+            'UTM Source': variant,
+            'UTM Medium': searchParams.get('utm_medium') || '',
+            'UTM Campaign': searchParams.get('utm_campaign') || '',
+            'UTM Term': searchParams.get('utm_term') || '',
+            'Timestamp': new Date().toISOString()
+          }]);
+        }
+        if (maxScroll >= 90 && !sessionStorage.getItem('scrolled90')) {
+          sessionStorage.setItem('scrolled90', 'true');
+          window._learnq?.push(['track', 'Scrolled 90%', {
+            'Landing Page Variant': variant,
+            'Page URL': window.location.href,
+            'UTM Source': variant,
+            'UTM Medium': searchParams.get('utm_medium') || '',
+            'UTM Campaign': searchParams.get('utm_campaign') || '',
+            'UTM Term': searchParams.get('utm_term') || '',
+            'Timestamp': new Date().toISOString()
+          }]);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [variant, searchParams]);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-900">
@@ -106,43 +173,19 @@ export default function ComingSoon2() {
               </div>
             </div>
           </div>
-          <div className="max-w-3xl mx-auto px-4 py-12 space-y-8">
-            <div className="space-y-4 text-center">
+          <div className="max-w-3xl mx-auto px-4 py-4 space-y-10">
+            <div className="space-y-6 text-center">
               <div className="flex justify-center">
                 <img
                   src="/images/key3.svg"
                   alt="Vintage key"
-                  className="h-16 w-auto transform -rotate-45"
+                  className="h-16 w-auto transform -rotate-90"
                 />
               </div>
               <h2 className="text-2xl font-semibold text-gray-900">
                 UNLOCK YOUR INVITATION TO FORGOTTEN MYSTERIES
               </h2>
-              <form onSubmit={(e) => {
-                  e.preventDefault();
-                  window.location.href = `/lp/thank-you?v=${variant}`;
-                }} 
-                className="flex flex-col sm:flex-row gap-2 max-w-2xl mx-auto w-full justify-center"
-              >
-                <div className="flex-grow w-full sm:flex-grow-0">
-                  <input
-                    className="w-full px-4 py-2 rounded border border-gray-900/20 
-                              focus:outline-none focus:ring-2 focus:ring-gray-900/50
-                              bg-[#f7f3e9]"
-                    placeholder="Enter Email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <button 
-                  type="submit" 
-                  className="px-6 py-2 rounded bg-gray-900 text-[#f7f3e9] hover:bg-gray-800 transition-colors 
-                            w-full sm:w-48 md:w-48 whitespace-nowrap"
-                >
-                  CLAIM MY ACCESS
-                </button>
-              </form>
+              <LaunchForm2 variant={variant} />
             </div>
           </div>
         </div>
