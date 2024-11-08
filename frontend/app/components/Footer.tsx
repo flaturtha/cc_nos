@@ -23,12 +23,12 @@ export default function Footer() {
             >
               Terms of Service
             </a>
-            <a 
-              href="mailto:privacy@talesofmurder.press" 
+            <Link 
+              to="/contact" 
               className="text-sm hover:text-white transition-colors"
             >
               Contact
-            </a>
+            </Link>
           </div>
         </div>
       </div>

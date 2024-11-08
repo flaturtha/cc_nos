@@ -19,13 +19,7 @@ export const links: LinksFunction = () => [
 ];
 
 export const meta: MetaFunction = () => {
-  return [
-    // ... other meta tags
-    {
-      "http-equiv": "Content-Security-Policy",
-      content: "upgrade-insecure-requests"
-    }
-  ];
+  return [];
 };
 
 export default function App() {
