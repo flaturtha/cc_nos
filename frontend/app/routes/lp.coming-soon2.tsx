@@ -16,7 +16,15 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-function HighlightedText({ text, highlights }: { text: string, highlights: string[] }) {
+function HighlightedText({ 
+  text, 
+  highlights, 
+  variant 
+}: { 
+  text: string, 
+  highlights: string[], 
+  variant: string 
+}) {
   if (!highlights || highlights.length === 0) return <span className="uppercase font-light lg:font-extralight">{text}</span>;
   
   const pattern = new RegExp(
@@ -33,18 +41,20 @@ function HighlightedText({ text, highlights }: { text: string, highlights: strin
           h.toLowerCase() === part.toLowerCase()
         );
         
+        if (isHighlighted) {
+          const style = HEADLINES[variant as keyof typeof HEADLINES]?.styles?.[part];
+          if (style === "italic") {
+            return <span key={index} className="font-light lg:font-extralight italic">{part}</span>;
+          } else if (style === "bold") {
+            return <span key={index} className="font-[1000] tracking-wide">{part}</span>;
+          }
+          return <span key={index} className="font-[1000] tracking-wide">{part}</span>;
+        }
+        
         return (
-          <React.Fragment key={index}>
-            {isHighlighted ? (
-              <span className="font-[1000] tracking-wide">
-                {part}
-              </span>
-            ) : (
-              <span className="font-light lg:font-extralight">
-                {part}
-              </span>
-            )}
-          </React.Fragment>
+          <span key={index} className="font-light lg:font-extralight">
+            {part}
+          </span>
         );
       })}
     </>
@@ -129,17 +139,18 @@ export default function ComingSoon2() {
       <main className="flex-grow">
         <div className="landing-page w-full bg-[#f7f3e9]">
           <div className="h-[70vh] relative">
-            <div className="absolute inset-0 bg-black/25 z-10"></div>
+            <div className="absolute inset-0 bg-black/45 z-10"></div>
             <img
               src="/images/old-cap-collier.png"
               alt="Product background"
               className="w-full h-full object-cover object-[15%_center]"
             />
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center z-20 px-4">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tighter text-[#f7f3e9] uppercase max-w-[16ch] sm:max-w-[18ch] lg:max-w-[24ch] mx-auto leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tighter text-[#f7f3e9] uppercase max-w-[16ch] sm:max-w-[18ch] lg:max-w-[24ch] mx-auto leading-loose">
                 <HighlightedText 
                   text={content.title} 
                   highlights={content.highlights || []} 
+                  variant={variant}
                 />
               </h1>
               
