@@ -4,11 +4,9 @@
     "build": {
       "outputs": [
         "apps/sanity/dist/**",
-        "apps/remix/build/**"
+        "apps/remix/build/**",
+        "apps/medusa/dist/**"
       ]
-    },
-    "check-types": {
-      "dependsOn": ["^check-types"]
     },
     "dev": {
       "persistent": true,
