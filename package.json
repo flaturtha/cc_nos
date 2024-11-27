@@ -3,13 +3,16 @@
   "private": true,
   "workspaces": [
     "apps/*",
+    "apps/medusa/*",
+    "apps/medusa/apps/*",
     "packages/*",
     "tools/*"
   ],
   "scripts": {
     "start:remix": "npm run dev --workspace=apps/remix",
     "start:sanity": "npm run dev --workspace=apps/sanity",
-    "start:medusa": "cd apps/medusa/apps/medusa && yarn dev",
+    "start:medusa-backend": "yarn workspace medusa-backend dev",
+    "start:storefront": "yarn workspace storefront dev",
     "build": "npm run build --workspaces",
     "lint": "npm run lint --workspaces"
   },

@@ -1,15 +1,35 @@
+# Dependencies
 node_modules
 
-/.cache
-/build
-.env
-vercel.json
-.turbo
-
-# Medusa
+# Local env files
 .env
 .env.*
 !.env.template
+
+# Build outputs and caches
+/.cache
+/build
+dist
+.next/
+out/
+
+# Vercel
+.vercel
+
+# Turbo repo
+.turbo
+
+# Debug
 npm-debug.log*
-.npm
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.DS_Store
+*.pem
+*.local
+
+# Medusa-specific
 _logs/
+*-values.yaml
+
