@@ -220,6 +220,19 @@ const EditionTabs = ({
   );
 };
 
+const ProductDescription = ({ description }: { description: string | null }) => {
+  if (!description) return null;
+  
+  return (
+    <div className="mt-8">
+      <h3 className="text-xl font-medium mb-4">Description</h3>
+      <div className="whitespace-pre-wrap text-base text-primary-800">
+        {description}
+      </div>
+    </div>
+  );
+};
+
 export function ProductTemplate({ product, fullText }: ProductTemplateProps) {
   console.log('Debug - Full product data:', {
     id: product.id,
@@ -308,7 +321,7 @@ export function ProductTemplate({ product, fullText }: ProductTemplateProps) {
   const defaultValues: AddToCartFormValues = {
     productId: product.id!,
     quantity: 1,
-    edition: '',
+    edition: product.variants?.[0]?.metadata?.edition || product.variants?.[0]?.title || '',
     options:
       product.options?.reduce(
         (acc, option) => {
@@ -358,7 +371,14 @@ export function ProductTemplate({ product, fullText }: ProductTemplateProps) {
 
   const soldOut = variantIsSoldOut(selectedVariant) || productSoldOut;
 
-  const [selectedEdition, setSelectedEdition] = useState<string>('');
+  const [selectedEdition, setSelectedEdition] = useState<string>(() => {
+    // Get the first variant's edition type as the default
+    const firstVariant = product.variants?.[0];
+    if (!firstVariant) return '';
+    
+    const defaultEdition = firstVariant.metadata?.edition || firstVariant.title;
+    return defaultEdition.toLowerCase();
+  });
 
   const { productMetadata } = useLoaderData<{ productMetadata: SanityProductMetadata }>();
 
@@ -372,9 +392,16 @@ export function ProductTemplate({ product, fullText }: ProductTemplateProps) {
         e => e.edition.toLowerCase() === editionType.toLowerCase()
       );
 
-      const price = variant.calculated_price 
-        ? `${(variant.calculated_price / 100).toFixed(2)}`
+      const price = variant.calculated_price?.calculated_amount
+        ? `${variant.calculated_price.calculated_amount.toFixed(2)}`
         : '0.00';
+
+      console.log('Debug - Variant pricing:', {
+        editionType,
+        variantId: variant.id,
+        calculatedPrice: variant.calculated_price?.calculated_amount,
+        finalPrice: price
+      });
 
       return {
         id: editionType.toLowerCase(),
@@ -387,6 +414,25 @@ export function ProductTemplate({ product, fullText }: ProductTemplateProps) {
       };
     });
   }, [product.variants, productMetadata]);
+
+  console.log('Debug - Variant prices:', product.variants?.map(v => ({
+    id: v.id,
+    title: v.title,
+    prices: v.prices?.map(p => ({
+      amount: p.amount,
+      currency_code: p.currency_code
+    })),
+    calculated_price: v.calculated_price
+  })));
+
+  const selectedVariantByEdition = useMemo(() => {
+    if (!selectedEdition || !product.variants) return null;
+    
+    return product.variants.find(variant => {
+      const editionType = variant.metadata?.edition || variant.title;
+      return editionType.toLowerCase() === selectedEdition.toLowerCase();
+    });
+  }, [selectedEdition, product.variants]);
 
   return (
     <>
@@ -428,6 +474,8 @@ export function ProductTemplate({ product, fullText }: ProductTemplateProps) {
           <Container className="px-0 sm:px-6 md:px-8">
             <Grid>
               <GridColumn>
+                <Breadcrumbs className="mb-6 px-6 md:px-10 text-primary" breadcrumbs={breadcrumbs} />
+                
                 <div className="md:py-6">
                   <Grid className="!gap-0">
                     <GridColumn className="mb-8 md:col-span-6 lg:col-span-7 xl:pr-16 xl:pl-9">
@@ -435,27 +483,23 @@ export function ProductTemplate({ product, fullText }: ProductTemplateProps) {
                     </GridColumn>
 
                     <GridColumn className="flex flex-col md:col-span-6 lg:col-span-5">
-                      <div className="px-0 sm:px-6 md:p-10 md:pt-0">
-                        <div>
-                          <Breadcrumbs className="mb-6 text-primary" breadcrumbs={breadcrumbs} />
-
-                          <header className="flex gap-4">
-                            <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl sm:tracking-tight">
-                              {product.title}
-                            </h1>
-                            <div className="flex-1" />
-                            <Share
-                              itemType="product"
-                              shareData={{
-                                title: product.title,
-                                text: truncate(product.description || 'Check out this product', {
-                                  length: 200,
-                                  separator: ' ',
-                                }),
-                              }}
-                            />
-                          </header>
-                        </div>
+                      <div className="px-6 md:px-10 md:pt-0">
+                        <header className="flex gap-4 mb-8">
+                          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl sm:tracking-tight">
+                            {product.title}
+                          </h1>
+                          <div className="flex-1" />
+                          <Share
+                            itemType="product"
+                            shareData={{
+                              title: product.title,
+                              text: truncate(product.description || 'Check out this product', {
+                                length: 200,
+                                separator: ' ',
+                              }),
+                            }}
+                          />
+                        </header>
 
                         <section aria-labelledby="product-information" className="mt-4">
                           <h2 id="product-information" className="sr-only">
@@ -463,25 +507,22 @@ export function ProductTemplate({ product, fullText }: ProductTemplateProps) {
                           </h2>
 
                           <p className="text-lg text-gray-900 sm:text-xl">
-                            {selectedVariant ? (
-                              <ProductPrice product={product} variant={selectedVariant} currencyCode={currencyCode} />
+                            {selectedVariantByEdition?.calculated_price?.calculated_amount ? (
+                              <ProductPrice 
+                                product={product} 
+                                variant={selectedVariantByEdition} 
+                                currencyCode={currencyCode} 
+                              />
                             ) : (
-                              <ProductPriceRange product={product} currencyCode={currencyCode} />
+                              <ProductPriceRange 
+                                product={product} 
+                                currencyCode={currencyCode} 
+                              />
                             )}
                           </p>
                         </section>
 
-                        <section aria-labelledby="product-editions" className="my-6">
-                          <h2 id="product-editions" className="text-lg font-medium mb-3">
-                            Available Editions
-                          </h2>
-                          <EditionTabs
-                            editions={editionDetails}
-                            selectedEdition={selectedEdition}
-                            onChange={setSelectedEdition}
-                            currencyCode={currencyCode}
-                          />
-                        </section>
+                        <ProductDescription description={product.description} />
 
                         <FormError />
 
@@ -505,53 +546,25 @@ export function ProductTemplate({ product, fullText }: ProductTemplateProps) {
                               )}
                             </div>
                           </div>
-
-                          {!!product.description && (
-                            <div className="mt-4">
-                              <h3 className="mb-2">Description</h3>
-                              <div className="whitespace-pre-wrap text-base text-primary-800">
-                                {product.description}
-                              </div>
-                            </div>
-                          )}
-
-                          {product.categories && product.categories.length > 0 && (
-                            <nav aria-label="Categories" className="mt-4">
-                              <h3 className="mb-2">Categories</h3>
-
-                              <ol className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                                {product.categories.map((category, categoryIndex) => (
-                                  <li key={categoryIndex}>
-                                    <Button
-                                      as={(buttonProps) => (
-                                        <Link to={`/categories/${category.handle}`} {...buttonProps} />
-                                      )}
-                                      className="!h-auto whitespace-nowrap !rounded !px-2 !py-1 !text-xs !font-bold"
-                                    >
-                                      {category.name}
-                                    </Button>
-                                  </li>
-                                ))}
-                              </ol>
-                            </nav>
-                          )}
-
-                          {product.tags && product.tags.length > 0 && (
-                            <nav aria-label="Tags" className="mt-4">
-                              <h3 className="mb-2">Tags</h3>
-
-                              <ol className="flex flex-wrap items-center gap-2 text-xs text-primary">
-                                {product.tags.map((tag, tagIndex) => (
-                                  <li key={tagIndex}>
-                                    <Button className="!h-auto whitespace-nowrap !rounded !px-2 !py-1 !text-xs !font-bold bg-accent-900 cursor-default">
-                                      {tag.value}
-                                    </Button>
-                                  </li>
-                                ))}
-                              </ol>
-                            </nav>
-                          )}
                         </div>
+                      </div>
+                    </GridColumn>
+                  </Grid>
+
+                  <Grid>
+                    <GridColumn className="md:col-span-12">
+                      <div className="px-6 md:px-10">
+                        <section aria-labelledby="product-editions" className="my-6">
+                          <h2 id="product-editions" className="text-lg font-medium mb-3">
+                            Available Editions
+                          </h2>
+                          <EditionTabs
+                            editions={editionDetails}
+                            selectedEdition={selectedEdition}
+                            onChange={setSelectedEdition}
+                            currencyCode={currencyCode}
+                          />
+                        </section>
                       </div>
                     </GridColumn>
                   </Grid>
@@ -559,14 +572,9 @@ export function ProductTemplate({ product, fullText }: ProductTemplateProps) {
               </GridColumn>
             </Grid>
           </Container>
-        </Form>{' '}
+        </Form>
       </section>
       <ProductList className="!pb-[100px] xl:px-9" heading="You may also like" />
-
-      <div className="text-center text-sm text-gray-500 mb-4">
-        Debug: {fullText ? `Found ${fullText.length} blocks` : 'No fullText content'}
-      </div>
-
       {renderFullText()}
     </>
   );
