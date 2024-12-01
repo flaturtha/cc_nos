@@ -14382,17 +14382,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.18.6":
-  version: 18.18.6
-  resolution: "@types/node@npm:18.18.6"
-  checksum: 10c0/50312053b0906058aa026e1c85c9125b4f0e8d6ae5e3699fb5bc8e0d5b9d1c2b12303902b2b91477c389f15ad40235d240b882819dd93a49bd6b46983f63be1c
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:^17.0.8":
   version: 17.0.45
   resolution: "@types/node@npm:17.0.45"
   checksum: 10c0/0db377133d709b33a47892581a21a41cd7958f22723a3cc6c71d55ac018121382de42fbfc7970d5ae3e7819dbe5f40e1c6a5174aedf7e7964e9cb8fa72b580b0
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^22.10.1":
+  version: 22.10.1
+  resolution: "@types/node@npm:22.10.1"
+  dependencies:
+    undici-types: "npm:~6.20.0"
+  checksum: 10c0/0fbb6d29fa35d807f0223a4db709c598ac08d66820240a2cd6a8a69b8f0bc921d65b339d850a666b43b4e779f967e6ed6cf6f0fca3575e08241e6b900364c234
   languageName: node
   linkType: hard
 
@@ -16854,6 +16856,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cc_nos@workspace:."
   dependencies:
+    "@sanity/client": "npm:^6.22.5"
+    "@types/node": "npm:^22.10.1"
     turbo: "npm:^2.3.1"
   languageName: unknown
   linkType: soft
@@ -31129,6 +31133,7 @@ __metadata:
     "@remix-run/router": "npm:^1.20.0"
     "@remix-run/serve": "npm:2.13.1"
     "@remix-validated-form/with-yup": "npm:^3.0.1"
+    "@sanity/client": "npm:^6.22.5"
     "@sentry/remix": "npm:^8.26.0"
     "@smastrom/react-rating": "npm:^1.3.2"
     "@stripe/react-stripe-js": "npm:2.8.0"
@@ -31151,7 +31156,7 @@ __metadata:
     "@types/lodash.omit": "npm:^4"
     "@types/lodash.pick": "npm:^4"
     "@types/multer": "npm:^1.4.11"
-    "@types/node": "npm:18.18.6"
+    "@types/node": "npm:^22.10.1"
     "@types/react": "npm:^18.2.31"
     "@types/react-dom": "npm:^18.2.14"
     "@types/set-cookie-parser": "npm:^2.4.2"

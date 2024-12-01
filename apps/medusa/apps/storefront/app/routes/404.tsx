@@ -2,18 +2,12 @@ import { Container } from '@app/components/common/container';
 import type { MetaFunction } from '@remix-run/node';
 import { getMergedPageMeta } from '@libs/util/page';
 import Hero from '@app/components/sections/Hero';
-import { Link, useRouteError } from '@remix-run/react';
+import { Link } from '@remix-run/react';
 import { HomeIcon, BookOpenIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 
 export const meta: MetaFunction = getMergedPageMeta;
 
-// This is the catch-all route that will handle any unmatched URLs
-export default function CatchAll() {
-  const error = useRouteError();
-  
-  // You can log the error or handle different types of errors differently
-  console.error(error);
-
+export default function NotFound() {
   return (
     <>
       <Container className="!px-0 py-0 sm:!p-16">
@@ -97,4 +91,4 @@ export default function CatchAll() {
       </Container>
     </>
   );
-}
+} 

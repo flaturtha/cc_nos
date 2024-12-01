@@ -95,7 +95,39 @@ export const Footer = () => {
             <SocialIcons siteSettings={settings} />
           </div>
         </div>
-        <div className="flex flex-col max-md:items-center gap-8 mt-12 md:flex-row md:justify-between border-t border-primary-600/50 pt-8">
+
+        <div className="mt-6 mb-8 border-y border-primary-600/50">
+          <div className="text-center">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-2 md:gap-0">
+              <URLAwareNavLink {...{ id: 'home', label: 'Home', url: '/', new_tab: false }}
+                className="text-primary-50 hover:text-primary-100 transition-colors text-sm md:after:content-['|'] md:after:mx-2 md:after:text-primary-400">
+                Home
+              </URLAwareNavLink>
+              <URLAwareNavLink {...{ id: 'about', label: 'About', url: '/about-us', new_tab: false }}
+                className="text-primary-50 hover:text-primary-100 transition-colors text-sm md:after:content-['|'] md:after:mx-2 md:after:text-primary-400">
+                About
+              </URLAwareNavLink>
+              <URLAwareNavLink {...{ id: 'contact', label: 'Contact', url: '/contact', new_tab: false }}
+                className="text-primary-50 hover:text-primary-100 transition-colors text-sm md:after:content-['|'] md:after:mx-2 md:after:text-primary-400">
+                Contact
+              </URLAwareNavLink>
+              <URLAwareNavLink {...{ id: 'faq', label: 'FAQ', url: '/faq', new_tab: false }}
+                className="text-primary-50 hover:text-primary-100 transition-colors text-sm md:after:content-['|'] md:after:mx-2 md:after:text-primary-400">
+                FAQ
+              </URLAwareNavLink>
+              <URLAwareNavLink {...{ id: 'terms', label: 'Terms', url: '/terms', new_tab: false }}
+                className="text-primary-50 hover:text-primary-100 transition-colors text-sm md:after:content-['|'] md:after:mx-2 md:after:text-primary-400">
+                Terms
+              </URLAwareNavLink>
+              <URLAwareNavLink {...{ id: 'privacy', label: 'Privacy Policy', url: '/privacy', new_tab: false }}
+                className="text-primary-50 hover:text-primary-100 transition-colors text-sm whitespace-nowrap">
+                Privacy Policy
+              </URLAwareNavLink>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col max-md:items-center gap-8 md:flex-row md:justify-between">
           <div className="flex flex-col gap-8">
             <div className="flex items-center gap-2 ">
               <Select

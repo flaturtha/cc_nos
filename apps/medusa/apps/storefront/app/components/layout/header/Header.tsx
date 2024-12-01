@@ -6,7 +6,7 @@ import { IconButton } from '@app/components/common/buttons';
 import { Container } from '@app/components/common/container/Container';
 import { URLAwareNavLink } from '@app/components/common/link';
 import clsx from 'clsx';
-import { type FC, useState } from 'react';
+import { type FC, useState, useEffect } from 'react';
 import { HeaderSideNav } from './HeaderSideNav';
 import { useActiveSection } from './useActiveSection';
 import { LogoStoreName } from '@app/components/LogoStoreName/LogoStoreName';
@@ -17,14 +17,31 @@ export type HeaderProps = {};
 
 export const Header: FC<HeaderProps> = () => {
   const [sideNavOpen, setSideNavOpen] = useState<boolean>(false);
+  const [scrollY, setScrollY] = useState(0);
   const { cart, toggleCartDrawer } = useCart();
   const { navigationItems } = useNavigation();
   const { activeSection } = useActiveSection(navigationItems);
   const rootLoader = useRootLoaderData();
   const hasProducts = rootLoader?.hasPublishedProducts;
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const opacity = Math.min(1, Math.max(0.75, 1 - (scrollY / 25)));
+
   return (
-    <header className="sticky top-0 z-50 bg-primary-700/75 backdrop-blur text-primary-50 shadow-md">
+    <header 
+      className="sticky top-0 z-50 backdrop-blur text-primary-50 shadow-md transition-all duration-150 ease-in-out"
+      style={{ 
+        backgroundColor: `rgb(28, 28, 30, ${opacity})`
+      }}
+    >
       <nav aria-label="Top">
         <div className="bg-transparent">
           <Container>
@@ -113,7 +130,7 @@ export const Header: FC<HeaderProps> = () => {
                     {...{
                       id: 'mission',
                       label: 'OUR MISSION',
-                      url: '/our-mission',
+                      url: '/about-us',
                       new_tab: false
                     }}
                     className={({ isActive }) =>

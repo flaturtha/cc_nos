@@ -31,7 +31,10 @@ module.exports = {
           100: '#D8C3A5',
           200: '#C4A484',
           600: '#8A0707',
-          700: '#1C1C1E',
+          700: {
+            DEFAULT: '#1C1C1E',
+            rgb: '28, 28, 30'
+          },
           800: '#1E3A5F',
         },
         accent: {
@@ -89,6 +92,49 @@ module.exports = {
         15: '15',
         16: '16',
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            'h2': {
+              color: 'var(--tw-prose-headings)',
+              fontWeight: '600',
+              fontSize: '1.875rem',
+              marginTop: '2.5rem',
+              marginBottom: '1.25rem',
+            },
+            'h3': {
+              color: 'var(--tw-prose-headings)',
+              fontWeight: '600',
+              fontSize: '1.5rem',
+              marginTop: '2rem',
+              marginBottom: '1rem',
+            },
+            'p': {
+              marginBottom: '1.5rem',
+            },
+            '.lead': {
+              fontSize: '1.25rem',
+              lineHeight: '1.75rem',
+              color: 'var(--tw-prose-lead)',
+            },
+            'figure': {
+              marginTop: '2.5rem',
+              marginBottom: '2.5rem',
+            },
+            'figure > img': {
+              marginTop: '0',
+              marginBottom: '0',
+            },
+            'figcaption': {
+              fontSize: '0.875rem',
+              lineHeight: '1.25rem',
+              marginTop: '0.75rem',
+              textAlign: 'center',
+              color: 'var(--tw-prose-captions)',
+            },
+          }
+        }
+      }
     },
   },
   plugins: [
