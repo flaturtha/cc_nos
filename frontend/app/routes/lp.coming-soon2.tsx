@@ -66,6 +66,13 @@ export default function ComingSoon2() {
   const variant = searchParams.get('utm_source') || '1';
   const content = HEADLINES[variant as keyof typeof HEADLINES] || HEADLINES['1'];
 
+  const handleScrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth'
+    });
+  };
+
   // Page view tracking
   useEffect(() => {
     if (window._learnq) {
@@ -138,15 +145,15 @@ export default function ComingSoon2() {
       <LoginButton />
       <main className="flex-grow">
         <div className="landing-page w-full bg-[#f7f3e9]">
-          <div className="h-[70vh] relative">
+          <div className="relative" style={{ paddingTop: '66.67%' }}>
             <div className="absolute inset-0 bg-black/45 z-10"></div>
             <img
-              src="/images/old-cap-collier.png"
+              src={content.image || "/images/old-cap-collier.png"}
               alt="Product background"
-              className="w-full h-full object-cover object-[15%_center]"
+              className="absolute top-0 left-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center z-20 px-4">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tighter text-[#f7f3e9] uppercase max-w-[16ch] sm:max-w-[18ch] lg:max-w-[24ch] mx-auto leading-loose">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tighter text-[#f7f3e9] uppercase max-w-[16ch] sm:max-w-[18ch] lg:max-w-[24ch] mx-auto leading-loose md:-mt-24">
                 <HighlightedText 
                   text={content.title} 
                   highlights={content.highlights || []} 
@@ -181,6 +188,13 @@ export default function ComingSoon2() {
                     <span>eBook, print, audiobook editions available</span>
                   </li>
                 </ul>
+              </div>
+
+              <div className="mt-8 animate-bounce cursor-pointer" onClick={handleScrollToBottom}>
+                <svg className="w-12 h-12 mx-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="11" stroke="#f7f3e9" strokeWidth="2"/>
+                  <path d="M7 10L12 15L17 10" stroke="#f7f3e9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </div>
             </div>
           </div>

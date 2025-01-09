@@ -1,4 +1,14 @@
-export const HEADLINES = {
+type HeadlineEntry = {
+  title: string;
+  highlights: string[];
+  description: string;
+  styles?: {
+    [key: string]: string;
+  };
+  image?: string;
+};
+
+export const HEADLINES: { [key: string]: HeadlineEntry } = {
   '1': {
     title: "Can you outwit the detectives who defined a genre?",
     highlights: ["you", "the detectives"],
@@ -125,7 +135,8 @@ export const HEADLINES = {
     description: "A Vintage Mystery Library",
     styles: {
       "Into the Heart of Australia": "italic",
-    }
+    },
+    image: "/images/hero-backgrounds/TEv25.png"
   },
   '26': {
     title: "“Every twist in OLD SEARCH AND THE STRANGLERS kept me guessing. This is how detective stories are supposed to be.”",
@@ -160,5 +171,98 @@ export const HEADLINES = {
     title: "“If you love Sherlock Holmes, prepare to be equally captivated by these detectives. Each book in this series is a masterpiece of tension and suspense.”",
     highlights: ["Sherlock Holmes", "masterpiece of tension and suspense"],
     description: "A Vintage Mystery Library"
+  },
+  '31': {
+    title: "BEFORE HOLMES, BEFORE POIROT --- THESE SLEUTHS LED THE WAY",
+    highlights: ["Holmes", "Poirot"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/Tv4.png"
+  },
+  '32': {
+    title: "“IF YOU LOVE SHERLOCK HOLMES PREPARE TO BE EQUALLY CAPTIVATED BY THESE DETECTIVES. EACH BOOK IN THIS SERIES IS A MASTERPIECE OF TENSION AND SUSPENSE.”",
+    highlights: ["Sherlock Holmes", "masterpiece of tension and suspense"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/TEv30.png"
+  },
+  '33': {
+    title: "MORE THRILLING THAN SHERLOCK, YET NEARLY LOST TO HISTORY.",
+    highlights: ["Sherlock"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/Tv2.png"
+  },
+  '34': {
+    title: "“READING THESE STORIES FELT LIKE UNCOVERING BURIED TREASURE. AS A LIFELONG CHRISTIE FAN, I'M HOOKED ON THESE FORGOTTEN CLASSICS.”",
+    highlights: ["buried treasure", "forgotten classics"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/TEv22.png"
+  },
+  '35': {
+    title: "MORE ACTION & SUSPENSE THAN SHERLOCK.",
+    highlights: ["Sherlock"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/Hv16.png"
+  },
+  '36': {
+    title: "“INTO THE HEART OF AUSTRALIA READ LIKE IT WAS WRITTEN YESTERDAY — GRITTY, FAST-PACED, AND IMPOSSIBLE TO PUT DOWN. A TRUE HIDDEN GEM.”",
+    highlights: ["Into the Heart of Australia", "hidden gem"],
+    description: "A Vintage Mystery Library",
+    styles: {
+      "Into the Heart of Australia": "italic"
+    },
+    image: "/images/hero-backgrounds/TEv25.png"
+  },
+  '37': {
+    title: "THE BEST MYSTERIES YOU'VE NEVER HEARD OF, WAITING TO BE SOLVED.",
+    highlights: ["you've never heard of"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/Tv6.png"
+  },
+  '38': {
+    title: "DUST PAGES, DEADLY SECRETS --- GET LOST IN HISTORY'S MYSTERIES",
+    highlights: ["history's mysteries"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/Hv15.png"
+  },
+  '39': {
+    title: "CAN YOU OUTWIT THE DETECTIVES WHO DEFINED A GENRE?",
+    highlights: ["you", "the detectives"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/Tv1.png"
+  },
+  '40': {
+    title: "“IF YOU'RE TIRED OF PREDICTABLE MYSTERIES, MEET OLD BROADBRIM. THESE VINTAGE STORIES REDEFINE SUSPENSE.”",
+    highlights: ["predictable mysteries", "redefine suspense"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/TEv23.png"
+  },
+  '41': {
+    title: "135 YEARS OLD?! READS LIKE IT WAS WRITTEN YESTERDAY.",
+    highlights: ["135 years old"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/Hv13.png"
+  },
+  '42': {
+    title: "MY NEW OBSESSION: OLD BROADBRIM AND THE FORGOTTEN DETECTIVES!",
+    highlights: ["forgotten detectives"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/Hv18.png"
+  },
+  '43': {
+    title: "THE BEST MYSTERIES YOU'VE NEVER READ",
+    highlights: ["never read"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/Hv11.png"
+  },
+  '44': {
+    title: "“THESE BOOKS ARE TIMELESS. EACH STORY FEELS LIKE UNCOVERING A LOST WORLD OF SUSPENSE AND UNFORGETABLE DETECTIVES.”",
+    highlights: ["timeless", "lost world"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/TEv29.png"
+  },
+  '45': {
+    title: "UNLOCK THE SECRETS OF FORGOTTEN DETECTIVES AND LOST CASES.",
+    highlights: ["forgotten detectives", "lost cases"],
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/Tv10.png"
   }
 };
