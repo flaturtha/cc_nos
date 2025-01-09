@@ -1,3 +1,8 @@
+type ImagePosition = string | {
+  mobile: string;
+  desktop: string;
+};
+
 type HeadlineEntry = {
   title: string;
   highlights: string[];
@@ -6,6 +11,7 @@ type HeadlineEntry = {
     [key: string]: string;
   };
   image?: string;
+  imagePosition?: ImagePosition;
 };
 
 export const HEADLINES: { [key: string]: HeadlineEntry } = {
@@ -97,7 +103,9 @@ export const HEADLINES: { [key: string]: HeadlineEntry } = {
   '18': {
     title: "My new obsession: Old Broadbrim and the forgotten detectives!",
     highlights: ["forgotten detectives"],
-    description: "A Vintage Mystery Library"
+    description: "A Vintage Mystery Library",
+    image: "/images/hero-backgrounds/Hv18.png",
+    imagePosition: "center 30%"
   },
   '19': {
     title: "Old-school detectives, hard-hitting cases — suspense that endures.",
@@ -188,7 +196,8 @@ export const HEADLINES: { [key: string]: HeadlineEntry } = {
     title: "MORE THRILLING THAN SHERLOCK, YET NEARLY LOST TO HISTORY.",
     highlights: ["Sherlock"],
     description: "A Vintage Mystery Library",
-    image: "/images/hero-backgrounds/Tv2.png"
+    image: "/images/hero-backgrounds/Tv2.png",
+    imagePosition: "25% center"
   },
   '34': {
     title: "“READING THESE STORIES FELT LIKE UNCOVERING BURIED TREASURE. AS A LIFELONG CHRISTIE FAN, I'M HOOKED ON THESE FORGOTTEN CLASSICS.”",
@@ -215,7 +224,8 @@ export const HEADLINES: { [key: string]: HeadlineEntry } = {
     title: "THE BEST MYSTERIES YOU'VE NEVER HEARD OF, WAITING TO BE SOLVED.",
     highlights: ["you've never heard of"],
     description: "A Vintage Mystery Library",
-    image: "/images/hero-backgrounds/Tv6.png"
+    image: "/images/hero-backgrounds/Tv6.png",
+    imagePosition: "25% center"
   },
   '38': {
     title: "DUST PAGES, DEADLY SECRETS --- GET LOST IN HISTORY'S MYSTERIES",
@@ -233,7 +243,8 @@ export const HEADLINES: { [key: string]: HeadlineEntry } = {
     title: "“IF YOU'RE TIRED OF PREDICTABLE MYSTERIES, MEET OLD BROADBRIM. THESE VINTAGE STORIES REDEFINE SUSPENSE.”",
     highlights: ["predictable mysteries", "redefine suspense"],
     description: "A Vintage Mystery Library",
-    image: "/images/hero-backgrounds/TEv23.png"
+    image: "/images/hero-backgrounds/TEv23.png",
+    imagePosition: "85% center"
   },
   '41': {
     title: "135 YEARS OLD?! READS LIKE IT WAS WRITTEN YESTERDAY.",
@@ -245,7 +256,8 @@ export const HEADLINES: { [key: string]: HeadlineEntry } = {
     title: "MY NEW OBSESSION: OLD BROADBRIM AND THE FORGOTTEN DETECTIVES!",
     highlights: ["forgotten detectives"],
     description: "A Vintage Mystery Library",
-    image: "/images/hero-backgrounds/Hv18.png"
+    image: "/images/hero-backgrounds/Hv18.png",
+    imagePosition: "85% center"
   },
   '43': {
     title: "THE BEST MYSTERIES YOU'VE NEVER READ",
