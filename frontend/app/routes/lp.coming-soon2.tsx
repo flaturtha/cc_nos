@@ -220,8 +220,32 @@ export default function ComingSoon2() {
                   className="h-12 sm:h-16 w-auto transform -rotate-90"
                 />
               </div>
-              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">
-                UNLOCK YOUR INVITATION TO FORGOTTEN MYSTERIES
+              <h2 className="space-y-2 sm:space-y-3">
+                <div className="text-2xl sm:text-3xl font-bold text-[#f7f3e9] bg-gray-900 py-2 px-4 inline-block shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.3)] transition-shadow duration-300">
+                  UNLOCK YOUR INVITATION
+                </div>
+                <div className="text-3xl sm:text-4xl font-semibold text-gray-900">
+                  +
+                </div>
+                <div className="text-lg sm:text-xl font-semibold text-gray-900">
+                  CLAIM YOUR FREE VINTAGE MYSTERY NOVEL <span className="italic">(ebook edition)</span>
+                </div>
+                <div className="text-xs sm:text-sm font-medium text-gray-600 mt-1 flex items-center justify-center flex-wrap gap-x-1.5 sm:gap-x-3">
+                  {['BAT WING', 'INTO THE HEART OF AUSTRALIA', 'THE BRADYS AND THE CHINESE IDOL', 'THE DEAD SECRET', 'THE EXPRESSMAN AND THE DETECTIVE'].map((title, index, array) => (
+                    <>
+                      <button 
+                        key={index}
+                        onClick={handleScrollToBottom}
+                        className="italic hover:text-gray-900 hover:font-semibold transition-all duration-200 cursor-pointer"
+                      >
+                        {title}
+                      </button>
+                      {index < array.length - 1 && (
+                        <span className="text-gray-400 font-light text-[0.8em] sm:text-base">✦</span>
+                      )}
+                    </>
+                  ))}
+                </div>
               </h2>
               <LaunchForm2 variant={variant} />
             </div>

@@ -26,8 +26,8 @@ export default function LaunchForm2({ variant }: LaunchForm2Props) {
   }
 
   return (
-    <div className="flex flex-col gap-6 max-w-2xl mx-auto bg-[#f7f3e9]/50 backdrop-blur-sm 
-                    border border-gray-900/10 rounded-lg pt-4 pb-8 px-8 shadow-lg">
+    <div className="flex flex-col gap-6 max-w-2xl mx-auto bg-[#f7f3e9] 
+                    pt-4 pb-8 px-8">
       <div className="klaviyo-form-Ue3g2T"></div>
     </div>
   );
