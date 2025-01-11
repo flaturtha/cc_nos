@@ -148,8 +148,8 @@ export default function ComingSoon2() {
           <div className={`relative before:block ${
             variant === '32'
               ? 'before:pb-[190%] sm:before:pb-[66.67%]'  // Extra tall for variant 32
-              : variant === '44' || variant === '40' || variant === '34'
-                ? 'before:pb-[170%] sm:before:pb-[66.67%]'  // Taller for variants 44, 40, and 34
+              : variant === '44' || variant === '40' || variant === '34' || variant === '36'
+                ? 'before:pb-[170%] sm:before:pb-[66.67%]'  // Taller for variants 44, 40, 34, and 36
                 : 'before:pb-[150%] sm:before:pb-[66.67%]'  // Normal height for other variants
           }`}>
             <div className="absolute inset-0 bg-black/45 z-10"></div>
@@ -172,10 +172,10 @@ export default function ComingSoon2() {
                 />
               </h1>
               
-              <div className="w-full max-w-2xl mt-3 mb-4 sm:mt-6 sm:mb-6 md:mt-8 md:mb-8">
-                <p className="text-gray-900 font-bold text-xs sm:text-sm md:text-lg lg:text-xl 
+              <div className="w-[90%] sm:w-auto max-w-2xl mt-3 mb-4 sm:mt-6 sm:mb-6 md:mt-8 md:mb-8">
+                <p className="text-gray-900 font-bold text-base sm:text-sm md:text-lg lg:text-xl 
                               bg-[#f7f3e9]/95 backdrop-blur-sm 
-                              px-2 py-1 sm:px-4 sm:py-2 text-center inline-block mx-auto
+                              px-6 py-3 sm:px-4 sm:py-2 text-center inline-block mx-auto
                               border-l-4 border-r-4 border-gray-900/20
                               shadow-[0_4px_12px_rgba(0,0,0,0.1)]
                               transition-all duration-300 ease-in-out
@@ -230,21 +230,86 @@ export default function ComingSoon2() {
                 <div className="text-lg sm:text-xl font-semibold text-gray-900">
                   CLAIM YOUR FREE VINTAGE MYSTERY NOVEL <span className="italic">(ebook edition)</span>
                 </div>
-                <div className="text-xs sm:text-sm font-medium text-gray-600 mt-1 flex items-center justify-center flex-wrap gap-x-1.5 sm:gap-x-3">
-                  {['BAT WING', 'INTO THE HEART OF AUSTRALIA', 'THE BRADYS AND THE CHINESE IDOL', 'THE DEAD SECRET', 'THE EXPRESSMAN AND THE DETECTIVE'].map((title, index, array) => (
-                    <>
+                <div className="text-xs sm:text-sm font-medium text-gray-600 mt-4 sm:mt-6">
+                  <div className="grid grid-cols-3 sm:flex items-start justify-items-center justify-center sm:flex-wrap gap-4 sm:gap-6">
+                    {[
+                      { title: 'BAT WING', cover: '/images/book-covers/bat-wing_cover.png' },
+                      { title: 'INTO THE HEART OF AUSTRALIA', cover: '/images/book-covers/into-the-heart-of-australia_cover.png' },
+                      { title: 'THE BRADYS AND THE CHINESE IDOL', cover: '/images/book-covers/bradys-and-the-chinese-idol_cover.png' }
+                    ].map((book, index) => (
                       <button 
                         key={index}
                         onClick={handleScrollToBottom}
-                        className="italic hover:text-gray-900 hover:font-semibold transition-all duration-200 cursor-pointer"
+                        className="group flex flex-col items-center gap-2 hover:text-gray-900 transition-all duration-200 cursor-pointer w-[70px] sm:w-[85px]"
                       >
-                        {title}
+                        <div className="aspect-[2/3] w-full relative">
+                          <img 
+                            src={book.cover} 
+                            alt={`Cover of ${book.title}`}
+                            className="absolute inset-0 w-full h-full object-cover shadow-sm group-hover:shadow-md transition-shadow duration-200"
+                          />
+                        </div>
+                        <span className="text-center italic text-[0.7em] sm:text-xs leading-tight">
+                          {book.title}
+                        </span>
                       </button>
-                      {index < array.length - 1 && (
-                        <span className="text-gray-400 font-light text-[0.8em] sm:text-base">✦</span>
-                      )}
-                    </>
-                  ))}
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-2 sm:hidden items-start justify-items-center gap-4 mt-4">
+                    {[
+                      { title: 'THE DEAD SECRET', cover: '/images/book-covers/dead-secret_cover.png' },
+                      { title: 'THE EXPRESSMAN AND THE DETECTIVE', cover: '/images/book-covers/expressman-and-the-detective_cover.png' }
+                    ].map((book, index) => (
+                      <button 
+                        key={index}
+                        onClick={handleScrollToBottom}
+                        className="group flex flex-col items-center gap-2 hover:text-gray-900 transition-all duration-200 cursor-pointer w-[70px] sm:w-[85px]"
+                      >
+                        <div className="aspect-[2/3] w-full relative">
+                          <img 
+                            src={book.cover} 
+                            alt={`Cover of ${book.title}`}
+                            className="absolute inset-0 w-full h-full object-cover shadow-sm group-hover:shadow-md transition-shadow duration-200"
+                          />
+                        </div>
+                        <span className="text-center italic text-[0.7em] sm:text-xs leading-tight">
+                          {book.title}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="hidden sm:flex items-start justify-center flex-wrap gap-6">
+                    {[
+                      { title: 'BAT WING', cover: '/images/book-covers/bat-wing_cover.png' },
+                      { title: 'INTO THE HEART OF AUSTRALIA', cover: '/images/book-covers/into-the-heart-of-australia_cover.png' },
+                      { title: 'THE BRADYS AND THE CHINESE IDOL', cover: '/images/book-covers/bradys-and-the-chinese-idol_cover.png' },
+                      { title: 'THE DEAD SECRET', cover: '/images/book-covers/dead-secret_cover.png' },
+                      { title: 'THE EXPRESSMAN AND THE DETECTIVE', cover: '/images/book-covers/expressman-and-the-detective_cover.png' }
+                    ].map((book, index, array) => (
+                      <React.Fragment key={index}>
+                        <button 
+                          onClick={handleScrollToBottom}
+                          className="group flex flex-col items-center gap-2 hover:text-gray-900 transition-all duration-200 cursor-pointer w-[70px] sm:w-[85px]"
+                        >
+                          <div className="aspect-[2/3] w-full relative">
+                            <img 
+                              src={book.cover} 
+                              alt={`Cover of ${book.title}`}
+                              className="absolute inset-0 w-full h-full object-cover shadow-sm group-hover:shadow-md transition-shadow duration-200"
+                            />
+                          </div>
+                          <span className="text-center italic text-[0.7em] sm:text-xs leading-tight">
+                            {book.title}
+                          </span>
+                        </button>
+                        {index < array.length - 1 && (
+                          <div className="flex items-center h-[105px]">
+                            <span className="text-gray-400 font-light text-[0.8em] sm:text-base">✦</span>
+                          </div>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </div>
                 </div>
               </h2>
               <LaunchForm2 variant={variant} />
