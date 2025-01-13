@@ -18,32 +18,71 @@ export const meta: MetaFunction = () => {
 
 // Add custom styles for tablet view
 const customStyles = `
-  @media (max-width: 768px) {
+  /* Mobile first - below 460px */
+  @media (max-width: 459px) {
     .hero-container {
       height: auto !important;
       min-height: fit-content !important;
-      padding-bottom: 100% !important;
-    }
-    .hero-container.taller {
-      padding-bottom: 110% !important;
-    }
-    .hero-container.extra-tall {
       padding-bottom: 120% !important;
     }
-    /* Mobile text sizes */
-    .hero-text {
-      font-size: 1rem !important;
-      line-height: 1.4 !important;
+    .hero-container.taller {
+      padding-bottom: 130% !important;
+    }
+    .hero-container.extra-tall {
+      padding-bottom: 140% !important;
+    }
+    /* Only hide bullets for specific variants */
+    .variant-32 .hero-text,
+    .variant-34 .hero-text,
+    .variant-36 .hero-text,
+    .variant-40 .hero-text,
+    .variant-44 .hero-text {
+      display: none !important;
     }
     .hero-title {
       font-size: 2rem !important;
       line-height: 1.2 !important;
     }
+    .hero-text {
+      font-size: 0.875rem !important;
+      line-height: 1.4 !important;
+    }
     .hero-bullet {
-      font-size: 1rem !important;
+      font-size: 0.875rem !important;
     }
   }
-  @media (min-width: 769px) and (max-width: 1164px) {
+
+  /* 460px to 768px */
+  @media (min-width: 460px) and (max-width: 768px) {
+    .hero-container {
+      height: auto !important;
+      min-height: fit-content !important;
+      padding-bottom: 110% !important;
+    }
+    .hero-container.taller {
+      padding-bottom: 140% !important;
+    }
+    .hero-container.extra-tall {
+      padding-bottom: 160% !important;
+    }
+    .hero-text {
+      font-size: 1.125rem !important;
+      line-height: 1.4 !important;
+    }
+    .hero-title {
+      font-size: clamp(2.5rem, 8vw, 3.75rem) !important;  /* ~60px at 768px */
+      line-height: 1.1 !important;
+    }
+    .hero-bullet {
+      font-size: 1.125rem !important;
+    }
+    .vintage-library-box {
+      font-size: 1.25rem !important;
+    }
+  }
+
+  /* 769px to 1159px */
+  @media (min-width: 769px) and (max-width: 1159px) {
     .hero-container {
       height: auto !important;
       min-height: fit-content !important;
@@ -55,31 +94,31 @@ const customStyles = `
     .hero-container.extra-tall {
       padding-bottom: 95% !important;
     }
-    /* Tablet text sizes */
     .hero-text {
-      font-size: 1.5rem !important;
+      font-size: min(2vw, 1.5rem) !important;
       line-height: 1.3 !important;
     }
     .hero-title {
-      font-size: 3rem !important;
+      font-size: 2.5rem !important;
       line-height: 1.1 !important;
-      max-width: 15ch !important;
     }
     .hero-bullet {
-      font-size: 1.25rem !important;
+      font-size: min(1.8vw, 1.4rem) !important;
     }
-    /* Ensure the checkmarks scale with text */
-    .hero-bullet:first-child {
-      font-size: 1.5rem !important;
+  }
+
+  /* 1160px and above */
+  @media (min-width: 1160px) {
+    .hero-container {
+      height: auto !important;
+      min-height: fit-content !important;
+      padding-bottom: 75% !important;  /* Taller to prevent bullet cutoff */
     }
-    /* Add more spacing between bullets for readability */
-    .hero-text ul {
-      gap: 0.75rem !important;
+    .hero-container.taller {
+      padding-bottom: 80% !important;
     }
-    /* Adjust the vintage library box size */
-    .vintage-library-box {
-      font-size: 1.25rem !important;
-      padding: 0.75rem 1.5rem !important;
+    .hero-container.extra-tall {
+      padding-bottom: 85% !important;
     }
   }
 `;
@@ -214,7 +253,7 @@ export default function ComingSoon2() {
       <LoginButton />
       <main className="flex-grow">
         <div className="landing-page w-full bg-[#f7f3e9]">
-          <div className={`relative hero-container ${
+          <div className={`relative hero-container variant-${variant} ${
             Number(variant) === 32 ? 'extra-tall' :
             [44, 40, 34, 36].includes(Number(variant)) ? 'taller' : ''
           }`} style={{ paddingBottom: '66.67%' }}>
@@ -278,6 +317,7 @@ export default function ComingSoon2() {
               </div>
             </div>
           </div>
+
           <div className="max-w-3xl mx-auto px-4 py-8 sm:py-12 space-y-8 sm:space-y-10">
             <div className="space-y-4 sm:space-y-6 text-center">
               <div className="flex justify-center">
