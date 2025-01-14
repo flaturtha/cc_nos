@@ -228,7 +228,7 @@ export const HEADLINES: { [key: string]: HeadlineEntry } = {
     imagePosition: "25% center"
   },
   '38': {
-    title: "DUST PAGES, DEADLY SECRETS --- GET LOST IN HISTORY'S MYSTERIES",
+    title: "DUSTY PAGES, DEADLY SECRETS --- GET LOST IN HISTORY'S MYSTERIES",
     highlights: ["history's mysteries"],
     description: "A Vintage Mystery Library",
     image: "/images/hero-backgrounds/Hv15.png"
