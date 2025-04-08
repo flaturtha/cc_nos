@@ -2,7 +2,7 @@ import { redirect } from "@remix-run/node";
 import type { LoaderFunction } from "@remix-run/node";
 
 export const loader: LoaderFunction = async () => {
-  return redirect("store.talesofmurder.com");
+  return redirect("https://store.talesofmurder.com");
 };
 
 export default function Index() {
